@@ -1,0 +1,98 @@
+<header><h2 class="text-xl font-semibold mb-4">Ajouter un projet</h2></header>
+
+<form #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)" class="space-y-4">
+  <!-- Nom du projet -->
+  <div>
+    <label class="block text-sm mb-1">Nom du projet</label>
+    <input
+      name="name"
+      [(ngModel)]="project.name"
+      required minlength="4"
+      class="w-full border rounded px-3 py-2"
+      #name="ngModel"
+    />
+    <p class="text-red-600 text-sm mt-1" *ngIf="name.invalid && name.touched">
+      <span *ngIf="name.errors?.['required']">Obligatoire</span>
+      <span *ngIf="name.errors?.['minlength']">Min 4 caractères</span>
+    </p>
+  </div>
+
+  <!-- Project manager -->
+  <div>
+    <label class="block text-sm mb-1">Project manager</label>
+    <input
+      name="manager"
+      [(ngModel)]="project.manager"
+      required
+      class="w-full border rounded px-3 py-2"
+      #manager="ngModel"
+    />
+    <p class="text-red-600 text-sm mt-1" *ngIf="manager.invalid && manager.touched">
+      Obligatoire
+    </p>
+  </div>
+
+  <!-- Date de début -->
+  <div>
+    <label class="block text-sm mb-1">Date de début</label>
+    <input
+      type="date"
+      name="dateDeb"
+      [(ngModel)]="project.dateDeb"
+      required
+      class="w-full border rounded px-3 py-2"
+      #dateDeb="ngModel"
+    />
+    <p class="text-red-600 text-sm mt-1" *ngIf="dateDeb.invalid && dateDeb.touched">
+      Obligatoire
+    </p>
+  </div>
+
+  <!-- Date de fin -->
+  <div>
+    <label class="block text-sm mb-1">Date de fin</label>
+    <input
+      type="date"
+      name="dateFin"
+      [(ngModel)]="project.dateFin"
+      required
+      class="w-full border rounded px-3 py-2"
+      #dateFin="ngModel"
+    />
+    <p class="text-red-600 text-sm mt-1" *ngIf="dateFin.invalid && dateFin.touched">
+      Obligatoire
+    </p>
+  </div>
+
+  <!-- Statut -->
+  <div>
+    <label class="block text-sm mb-1">Statut</label>
+    <select
+      name="status"
+      [(ngModel)]="project.status"
+      required
+      class="w-full border rounded px-3 py-2"
+      #status="ngModel"
+    >
+      <option value="" disabled>-- Sélectionner --</option>
+      <option>En attente</option>
+      <option>En cours</option>
+      <option>Terminé</option>
+    </select>
+    <p class="text-red-600 text-sm mt-1" *ngIf="status.invalid && status.touched">
+      Obligatoire
+    </p>
+  </div>
+
+  <!-- Boutons -->
+  <div class="flex gap-2">
+    <button type="submit" [disabled]="projectForm.invalid"
+            class="px-4 py-2 rounded bg-indigo-600 text-white disabled:opacity-50">
+      Enregistrer
+    </button>
+    <button type="button" (click)="onReset(projectForm)"
+            class="px-4 py-2 rounded border">
+      Réinitialiser
+    </button>
+  </div>
+</form>

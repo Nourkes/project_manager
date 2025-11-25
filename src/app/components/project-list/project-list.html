@@ -1,0 +1,51 @@
+@if (projects.length > 0) {
+<div class="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen">
+  <div class="min-h-screen flex flex-col items-center py-12 px-4">
+    <h1 class="text-4xl font-bold text-gray-800 mb-10">{{ title }}</h1>
+    <app-dashboard [projects]="projects"></app-dashboard>
+
+    <input
+      [(ngModel)]="searchTerm"
+      placeholder="Rechercher un projet"
+      class="w-full max-w-md mb-8 rounded-lg border px-4 py-2 shadow-sm"
+    />
+
+    <div class="grid gap-6 w-full max-w-5xl md:grid-cols-2 lg:grid-cols-3">
+      @for (project of projects; track project.name) {
+         @if ( (project.name + ' ' + project.description).toLowerCase()
+              .includes((searchTerm || '').toLowerCase()) ) {
+        <div class="card bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h2 class="text-xl font-bold text-gray-800 mb-2">{{ project.name }}</h2>
+          <p class="text-gray-600 mb-4">{{ project.description }}</p>
+
+          <div class="space-y-1 text-gray-600 mb-4">
+            <p><strong>Début :</strong> {{ project.dateDeb | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Fin :</strong>   {{ project.dateFin  | date:'dd/MM/yyyy' }}</p>
+          </div>
+
+          <span class="inline-block bg-gray-500 text-white text-sm font-semibold px-4 py-2 rounded-full">
+            {{ project.status }}
+          </span>
+
+          <div class="mt-4">
+            <app-task-list [tasks]="project.tasks"></app-task-list>
+          </div>
+
+          <button
+            class="mt-4 w-full rounded-lg bg-indigo-600 text-white py-2 font-medium hover:bg-indigo-700"
+            (click)="selectProject(project)">
+            Voir les détails
+          </button>
+        </div>
+      }}
+    </div>
+    @if (selectedProject) {
+      <div class="w-full max-w-3xl mt-10">
+        <app-project-detail [project]="selectedProject"></app-project-detail>
+      </div>
+    }
+  </div>
+</div>
+} @else {
+  <p class="text-gray-500 italic text-center py-4">Aucun projet trouvé</p>
+}

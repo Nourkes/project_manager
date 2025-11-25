@@ -1,0 +1,37 @@
+<ul class="space-y-2">
+  @if (tasks.length > 0) {
+@for (t of tasks; track t.title; let i = $index) {
+      <li
+        class="flex items-center justify-between rounded-lg px-4 py-3 border-l-4"
+        [ngClass]="{
+          'border-green-500 bg-green-50': t.status === 'Terminé',
+          'border-indigo-500 bg-indigo-50': t.status === 'En cours',
+          'border-amber-500 bg-amber-50': t.status === 'En attente'
+        }"
+      >
+        <div>
+          <div class="font-medium text-gray-800">{{ t.title }}</div>
+          <div class="text-sm text-gray-500">Priorité : {{ t.priority }}</div>
+        </div>
+
+        <span
+          class="px-3 py-1 text-sm font-semibold rounded-full"
+          [ngClass]="{
+            'bg-green-200 text-green-800': t.status === 'Terminé',
+            'bg-indigo-200 text-indigo-800': t.status === 'En cours',
+            'bg-amber-200 text-amber-800': t.status === 'En attente'
+          }"
+        >
+          {{ t.status }}
+        </span>
+            <button type="button" class="ml-3 px-3 py-1 rounded border"
+(click)="onClickChange(i)"
+            >
+      Changer statut
+    </button>
+      </li>
+    }
+  } @else {
+    <li class="text-gray-500 italic text-center py-2">Aucune tâche</li>
+  }
+</ul>
